@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conversation Example</title>
+    <style>
+        :root {
+            --bg: #f5f6fa;
+            --card: #ffffff;
+            --line: #e6e8f0;
+            --text: #1f2430;
+            --muted: #697084;
+            --brand: #5b62f1;
+            --assistant: #3f46d8;
+            --prompt-bg: #f2f4fa;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 36px 20px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .wrap {
+            max-width: 880px;
+            margin: 0 auto;
+        }
+
+        .chat-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--line);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .chat-header .demo {
+            color: var(--brand);
+            margin-right: 14px;
+        }
+
+        .chat-header .title {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .chat-header .step {
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .chat-body {
+            padding: 18px 16px 22px;
+            background: #fbfcff;
+        }
+
+        .user-turn {
+            margin-left: auto;
+            width: min(620px, 92%);
+            background: var(--prompt-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 14px;
+        }
+
+        .user-question {
+            margin: 0 0 10px;
+            font-size: 17px;
+            line-height: 1.5;
+            white-space: pre-line;
+        }
+
+        .problem-image {
+            width: 100%;
+            border: 1px solid #dde1ec;
+            border-radius: 8px;
+            display: block;
+            object-fit: cover;
+            background: #fff;
+        }
+
+        .assistant-turn {
+            margin-top: 16px;
+            padding-right: 10px;
+            max-width: 95%;
+        }
+
+        .assistant-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .assistant-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            background: linear-gradient(135deg, #6f7bff, #4a55ea);
+            color: white;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .assistant-content {
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: #f8f9ff;
+            padding: 14px;
+            color: #2a3040;
+        }
+
+        .assistant-scroll {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 560px;
+            overflow: auto;
+            font-size: 15px;
+            line-height: 1.55;
+            color: #273044;
+            font-family: inherit;
+        }
+
+        .assistant-content p {
+            margin: 0 0 10px;
+        }
+
+        .assistant-content ol,
+        .assistant-content ul {
+            margin: 8px 0 12px 24px;
+            padding: 0;
+        }
+
+        .assistant-content li {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="chat-card" aria-label="Example conversation">
+            <header class="chat-header">
+                <div>
+                    <span class="demo">Demo2</span>
+                </div>
+                <span class="step">2/3</span>
+            </header>
+
+            <div class="chat-body">
+                <article class="user-turn" aria-label="User message with image and question">
+                    <p class="user-question">In triangle ABC, the internal bisectors of ∠B and ∠C meet at a point O. If
+                        the measure of ∠A is 80°, what is the measure of ∠BOC?</p>
+                    <img class="problem-image" src="example_math2.png" alt="Math problem screenshot" />
+                </article>
+
+                <article class="assistant-turn" aria-label="Model response">
+                    <div class="assistant-head">
+                        <span class="assistant-icon">✦</span>
+                        <span>Vero</span>
+                    </div>
+                    <div class="assistant-content">
+                        <pre class="assistant-scroll">&lt;think&gt;
+Okay, let's see. I need to find the measure of angle BOC in triangle ABC where O is the intersection point of the internal bisectors of angles B and C. Angle A is given as 80 degrees. Hmm, right. So first, maybe I should recall some properties about angle bisectors and triangles.
+
+Wait, triangle ABC has angle A = 80°, so the sum of angles in a triangle is 180°, so angles at B and C together must be 180° - 80° = 100°. So angle B + angle C = 100°. Now, since BO and CO are the angle bisectors, each bisects their respective angles. So angle OBC would be half of angle B, and angle OCB would be half of angle C.
+
+Let me write that down. Let’s denote angle ABC as ∠B, so ∠OBC = (1/2)∠B. Similarly, ∠ACB = ∠C, so ∠OCB = (1/2)∠C. Then, in triangle BOC, the angles at B and C are these halves. Wait, but angle at O in triangle BOC is what we need to find, which is ∠BOC.
+
+In any triangle, the sum of angles is 180°, so in triangle BOC: ∠BOC + ∠OBC + ∠OCB = 180°. So substituting the bisected angles: ∠BOC + (1/2)∠B + (1/2)∠C = 180°. But we know that ∠B + ∠C = 100°, so (1/2)(∠B + ∠C) = 50°. Therefore, ∠BOC + 50° = 180°, so ∠BOC = 130°.
+
+Wait, is there another way to check this? Maybe using the formula for the angle formed by two angle bisectors. I remember there's a formula that in a triangle, the measure of the angle formed by the bisectors of two angles is equal to 90° plus half the measure of the third angle. Let me verify that. If angle A is 80°, then angle BOC should be 90° + (angle A)/2 = 90° + 40° = 130°. Yes, that matches. So that formula seems to work here.
+
+So both methods give the same result. The calculation using the sum of angles in triangle BOC gives 130°, and the formula also gives 130°. So the answer should be 130 degrees. Let me just make sure I didn't mix up any steps. Angle A is 80°, so angles B and C total 100°. Bisecting them gives 50° total in the smaller triangle. So subtracting from 180° gives 130°. Yep, that seems solid. No mistakes spotted here.
+&lt;/think&gt;
+
+&lt;answer&gt;
+In triangle $ABC$, $\angle A = 80^\circ$. Since the sum of angles in a triangle is $180^\circ$, the remaining angles satisfy $\angle B + \angle C = 180^\circ - 80^\circ = 100^\circ$.
+
+Point $O$ is the intersection of the internal bisectors of $\angle B$ and $\angle C$, so $\angle OBC = \frac{1}{2}\angle B$ and $\angle OCB = \frac{1}{2}\angle C$. Adding these gives:
+$$
+\angle OBC + \angle OCB = \frac{1}{2}(\angle B + \angle C) = \frac{1}{2}(100^\circ) = 50^\circ.
+$$
+
+In triangle $BOC$, the sum of angles is $180^\circ$, so:
+$$
+\angle BOC = 180^\circ - (\angle OBC + \angle OCB) = 180^\circ - 50^\circ = 130^\circ.
+$$
+
+Alternatively, the formula for the angle between two internal bisectors states $\angle BOC = 90^\circ + \frac{1}{2}\angle A$. Substituting $\angle A = 80^\circ$:
+$$
+\angle BOC = 90^\circ + \frac{1}{2}(80^\circ) = 90^\circ + 40^\circ = 130^\circ.
+$$
+
+Both approaches confirm the measure of $\angle BOC$.
+
+\boxed{130}
+&lt;/answer&gt;</pre>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                const blocks = Array.from(document.querySelectorAll('.assistant-scroll'));
+                window.MathJax.typesetPromise(blocks).catch(() => { });
+            }
+        }, { once: true });
+    </script>
+</body>
+
+</html>

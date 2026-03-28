@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conversation Example</title>
+    <style>
+        :root {
+            --bg: #f5f6fa;
+            --card: #ffffff;
+            --line: #e6e8f0;
+            --text: #1f2430;
+            --muted: #697084;
+            --brand: #5b62f1;
+            --assistant: #3f46d8;
+            --prompt-bg: #f2f4fa;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 36px 20px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .wrap {
+            max-width: 880px;
+            margin: 0 auto;
+        }
+
+        .chat-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--line);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .chat-header .demo {
+            color: var(--brand);
+            margin-right: 14px;
+        }
+
+        .chat-header .step {
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .chat-body {
+            padding: 18px 16px 22px;
+            background: #fbfcff;
+        }
+
+        .user-turn {
+            margin-left: auto;
+            width: min(620px, 92%);
+            background: var(--prompt-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 14px;
+        }
+
+        .user-question {
+            margin: 0 0 10px;
+            font-size: 17px;
+            line-height: 1.5;
+            white-space: pre-line;
+        }
+
+        .problem-image {
+            width: 100%;
+            border: 1px solid #dde1ec;
+            border-radius: 8px;
+            display: block;
+            object-fit: cover;
+            background: #fff;
+        }
+
+        .assistant-turn {
+            margin-top: 16px;
+            padding-right: 10px;
+            max-width: 95%;
+        }
+
+        .assistant-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .assistant-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            background: linear-gradient(135deg, #6f7bff, #4a55ea);
+            color: white;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .assistant-content {
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: #f8f9ff;
+            padding: 14px;
+            color: #2a3040;
+        }
+
+        .assistant-scroll {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 560px;
+            overflow: auto;
+            font-size: 15px;
+            line-height: 1.55;
+            color: #273044;
+            font-family: inherit;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="chat-card" aria-label="Example conversation">
+            <header class="chat-header">
+                <div>
+                    <span class="demo">Demo3</span>
+                </div>
+                <span class="step">3/3</span>
+            </header>
+
+            <div class="chat-body">
+                <article class="user-turn" aria-label="User message with image and question">
+                    <p class="user-question">The arrows indicate directions that the robot gripper could move, where
+                        should the robot gripper move, so that it can pull the straw out of the soda
+                        can?<br>Choices:<br>A. Arrow 1.<br>B. Arrow 5.<br>C. Arrow 9.<br>D. Arrow 8.</p>
+                    <img class="problem-image" src="example_spatial3.png" alt="Math problem screenshot" />
+                </article>
+
+                <article class="assistant-turn" aria-label="Model response">
+                    <div class="assistant-head">
+                        <span class="assistant-icon">✦</span>
+                        <span>Vero</span>
+                    </div>
+                    <div class="assistant-content">
+                        <pre class="assistant-scroll">&lt;think&gt;
+Okay, let's see. The question is asking where the robot gripper should move to pull the straw out of the soda can. The choices are arrows 1, 5, 9, or 8.
+
+First, I need to look at the image. There's a soda can on the table with a straw sticking out. The robot arm is positioned above the table, maybe near the can. The purple arrows (labeled 0 through 9) are indicating possible movement directions from the gripper.
+
+The goal is to pull the straw out. So the gripper needs to move towards the straw. Let me check the positions. Arrow 9 is pointing towards the can. Wait, point 9 is labeled near the can. Let me check: the can is at position marked with a number 1 and 9. Wait, the can has a straw, so the straw is part of the can's location. Arrow 9 is one of the labels connected to the can. The gripper is currently at point 0, which is near the center of the table.
+
+Looking at the choices: A is arrow 1, which is near the base of the can. B is arrow 5, which is lower down near the chair leg. C is arrow 9, which is directly pointing towards the can. D is arrow 8, which is higher up near the chair.
+
+Wait, the can is located where arrow 1 is on the table. But the straw is coming out of the can. The gripper needs to reach the straw. The closest path would be moving towards the can. Arrow 9 is pointing towards the can. So maybe the robot should move along arrow 9 to grab the straw. Alternatively, arrow 1 is near the base of the can, but arrow 9 is closer to the top where the straw is.
+
+Looking at the diagram: the can is at position 1 on the table. The straw comes out of the top. Arrow 9 is labeled near the top of the can (above the can). Wait, the numbers around the table: 1 is near the bottom left of the can (on the table), 9 is just above the can (maybe the position of the straw). Arrow 9 points towards the can's location.
+
+So if the gripper moves towards arrow 9, it would reach the straw. Therefore, choice C (arrow 9) is correct. Arrow 8 is above the gripper. Arrow 0 is where the gripper is now. Arrow 2 is another direction. So arrow 9 seems the right choice.
+&lt;/think&gt;
+
+&lt;answer&gt;
+The robot gripper needs to move toward the straw protruding from the soda can to pull it out. The can is located near point 1 on the table, but the straw emerges from the top of the can. Among the labeled arrows:  
+- **Arrow 1** (Choice A) points near the base of the can (not directly at the straw).  
+- **Arrow 5** (Choice B) directs toward a chair leg (not relevant).  
+- **Arrow 9** (Choice C) points directly toward the can’s location and the straw.  
+- **Arrow 8** (Choice D) points upward (toward the ceiling/chair back, away from the straw).  
+
+The most direct path for the gripper to reach the straw is via **Arrow 9**.  
+
+\boxed{C}
+&lt;/answer&gt;</pre>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                const blocks = Array.from(document.querySelectorAll('.assistant-scroll'));
+                window.MathJax.typesetPromise(blocks).catch(() => { });
+            }
+        }, { once: true });
+    </script>
+</body>
+
+</html>

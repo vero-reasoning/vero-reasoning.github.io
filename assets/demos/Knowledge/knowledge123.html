@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Knowledge & Recognition Demos</title>
+    <style>
+        :root {
+            --bg: #f5f6fa;
+            --card: #ffffff;
+            --line: #d6e1ee;
+            --text: #0D2137;
+            --muted: #697084;
+            --brand: #1976D2;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 36px 20px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .wrap {
+            max-width: 780px;
+
+            margin: 0 auto;
+        }
+
+        /* ── Card ─────────────────────────────────────── */
+        .chat-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+        }
+
+        /* ── Header ──────────────────────────────────── */
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 15px;
+        }
+
+        .demo-tag {
+            color: var(--brand);
+            font-weight: 700;
+        }
+
+        .header-sep {
+            color: var(--muted);
+            font-weight: 400;
+        }
+
+        .header-title {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .pager {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-btn {
+            border: none;
+            background: none;
+            color: var(--muted);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 2px 7px;
+            border-radius: 6px;
+            line-height: 1;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: var(--line);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .step {
+            color: var(--muted);
+            font-size: 14px;
+            min-width: 38px;
+            text-align: center;
+        }
+
+        /* ── Chat body ───────────────────────────────── */
+        .chat-body {
+            padding: 20px 18px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            background: #f9fafb;
+        }
+
+        /* ── User turn (right bubble) ────────────────── */
+        .user-turn {
+            align-self: flex-end;
+            max-width: 75%;
+            background: #ffffff;
+            border: 1px solid var(--line);
+            border-radius: 14px 14px 4px 14px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .user-question {
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.55;
+            color: var(--text);
+            white-space: pre-wrap;
+        }
+
+        .problem-image {
+            width: 100%;
+            max-width: 300px;
+            align-self: flex-end;
+            display: block;
+            border-radius: 8px;
+            border: 1px solid var(--line);
+            object-fit: cover;
+        }
+
+        /* ── Assistant turn (left) ───────────────────── */
+        .assistant-turn {
+            align-self: flex-start;
+            max-width: 92%;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .assistant-avatar {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #1976D2;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .assistant-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .assistant-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--muted);
+            margin-bottom: 5px;
+        }
+
+        .assistant-content {
+            background: #ffffff;
+            border: 1px solid var(--line);
+            border-radius: 4px 14px 14px 14px;
+            padding: 12px 14px;
+        }
+
+        .assistant-scroll {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            overflow: auto;
+            max-height: 560px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text);
+            font-family: inherit;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="chat-card" aria-label="Example conversation">
+            <header class="chat-header">
+                <div class="header-left">
+                    <span class="demo-tag" id="demoLabel">Demo1</span>
+                    <span class="header-sep"></span>
+                    <span class="header-title"></span>
+                </div>
+                <div class="pager">
+                    <button class="nav-btn" id="prevBtn">&#8249;</button>
+                    <span class="step" id="stepLabel">1/3</span>
+                    <button class="nav-btn" id="nextBtn">&#8250;</button>
+                </div>
+            </header>
+
+            <div class="chat-body">
+                <article class="user-turn" aria-label="User message">
+                    <p class="user-question" id="questionText"></p>
+                    <img class="problem-image" id="problemImage" src=""
+                        alt="Knowledge & Recognition problem screenshot" />
+                </article>
+
+                <article class="assistant-turn" aria-label="Model response">
+                    <div class="assistant-avatar" id="assistantAvatar">V</div>
+                    <div class="assistant-body">
+                        <div class="assistant-name" id="assistantName">Vero</div>
+                        <div class="assistant-content">
+                            <div class="assistant-scroll" id="assistantText"></div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const DEMOS = [{ "demo": "Knowledge & Recognition 1", "question": "Which city is shown in this image?", "image": "example_knowledge2.png", "assistant": "&lt;think&gt;\nHmm, let's see. The question is asking which city is shown in the image. Okay, first I need to look at the landmarks in the picture. There's a replica of the Eiffel Tower, right? That's probably a clue. Also, there's a large building with a hot air balloon-shaped structure and a Ferris wheel. Wait, but more importantly, I remember that Las Vegas has several replicas of famous landmarks because it's known for its themed hotels. Oh, and there's the Bellagio hotel with the fountains—wait, but actually, the building with the Eiffel Tower replica is the Paris Las Vegas hotel. Yeah, Paris Las Vegas has an Eiffel Tower replica. Then there's the High Roller Ferris wheel on the left side, but I think the largest observation wheel in the world is the High Roller in Las Vegas. Also, the building labeled \"BALLY'S\" is another casino hotel. Oh, and there's a sign saying \"BEER PARK,\" maybe part of the casino complex. Additionally, on the right side, there's a building with \"ph\" on top—maybe Planet Hollywood? Wait, Planet Hollywood is also in Las Vegas. Also, the iconic Strip in Las Vegas has these big hotels with replicas. The image has multiple recognizable Las Vegas landmarks: the Eiffel Tower (Paris Hotel), the Bellagio fountains are there too—I can see the water fountain display. Wait, Bellagio has the fountains, but here the Eiffel Tower is prominent. But Las Vegas is known for having those replicas. So all these elements point to Las Vegas. Let me check again: the Ferris wheel is likely the High Roller, located at the New York-New York hotel or another place, but still in Las Vegas. The presence of multiple hotels like Bally's and Paris Las Vegas confirms it's Las Vegas, Nevada. So the city shown is Las Vegas.\n\n&lt;/think&gt;\n\n&lt;answer&gt;\nThe image depicts a nighttime scene featuring prominent landmarks. A key visual element is the replica of the Eiffel Tower, characteristic of the Paris Las Vegas hotel. Nearby, a large illuminated Ferris wheel (likely the High Roller) and a fountain display align with the Las Vegas Strip’s signature attractions. The building labeled “BALLY’S” and other casino-hotel structures further confirm the location. Las Vegas is renowned for hosting scaled replicas of global landmarks alongside its entertainment-focused architecture and vibrant nighttime illumination.  \n\n\\boxed{Las Vegas}\n&lt;/answer&gt;" }, { "demo": "Knowledge & Recognition 2", "question": "What traditional cuisine is shown in this image, and which culture is it associated with?", "image": "example_knowledge3.png", "assistant": "&lt;think&gt;\nOkay, let's see. The question is asking about the traditional cuisine shown in the image and the associated culture.\n\nFirst, I need to look at the image. There are several round pastries on a plate with blue floral designs. They have intricate patterns pressed into the top—maybe flower or geometric designs. The crust looks golden-brown, maybe slightly crispy around the edges. Some of the pastries have a small crack or opening on top, which might indicate a filling inside.\n\nHmm, traditional pastries with such detailed imprints... Maybe mooncakes? Mooncakes are a Chinese traditional food, especially associated with Mid-Autumn Festival. They often have elaborate designs stamped into the pastry dough before baking, and they can have various fillings like lotus seed paste, red bean, or salted egg yolk. The round shape also fits mooncakes. \n\nWait, there's another possibility—perhaps baklava? But baklava is more Middle Eastern/Levantine, with layers of phyllo dough and nuts, but these don't look layered like that. Also, the imprinted patterns are different. Maybe Japanese or Korean pastries? But mooncakes are most famously Chinese. Also, the plate has blue and white floral patterns, which are common in Chinese porcelain styles, maybe adding cultural context.\n\nAnother angle: the image shows multiple round baked goods with decorative molds. Mooncakes are definitely a strong candidate here. The central one has a star-like pattern with a small gap (maybe a visible filling). The crust texture and color match mooncake characteristics—golden brown, slightly crisp exterior. The plate style with blue and white flowers could be a traditional Chinese dishware style, reinforcing the association.\n\nConsidering all this, the cuisine is mooncakes, linked to Chinese culture. The question asks for the traditional cuisine name and the culture, so the answer should specify mooncakes as the cuisine and Chinese culture.\n&lt;/think&gt;\n\n&lt;answer&gt;\nThe image shows several round baked pastries with intricate embossed patterns on their tops, arranged on a decorative plate with blue-and-white floral motifs. These pastries feature golden-brown crusts with subtle variations in texture and a slightly crisp edge, along with detailed designs (e.g., radial or floral motifs) typical of molded or stamped dough. Such pastries are characteristic of **mooncakes** (*yuebing*), a traditional Chinese confection closely associated with the Mid-Autumn Festival. Mooncakes historically consist of a sweet or savory filling (such as lotus seed paste, red bean paste, or salted egg yolk) encased in a pastry shell, often decorated with elaborate patterns before baking. The plate’s aesthetic—adorned with delicate blue floral details—also aligns with traditional Chinese ceramic styles commonly used for serving festive foods.  \n\n\\boxed{Chinese}\n&lt;/answer&gt;" }, { "demo": "Knowledge & Recognition 3", "question": "Use external knowledge to identify who the man riding the horse is.", "image": "example_knowledge1.png", "assistant": "&lt;think&gt;\nHmm, let's see. The question is asking to identify the man riding the horse using external knowledge. Okay, first I need to look at the image. There's a man on a white horse, wearing a military uniform with a bicorne hat that has a gold trim and some insignia. He's holding a red cape that's flowing behind him, and he's raising one hand in a gesture. The horse is rearing up, and there are soldiers and cannon wheels in the background. Also, at the bottom left corner of the painting, there's text that says \"BONAPARTE\" written on a rock, and below that, part of another inscription: \"KAROLVS. MAGNVS IMP\".\n\nWait, but maybe the name on the stone is already a clue. Bonaparte? That rings a bell. Napoleon Bonaparte was a French military leader who became Emperor of France. Oh, right! This painting looks familiar—it might be Jacques-Louis David's famous depiction of Napoleon crossing the Alps. Wait, the painting is titled something like \"Napoleon Crossing the Alps,\" but actually, that's a common subject. But here the inscribed text includes \"BONAPARTE.\" So even though it's a painting by someone else (maybe not David exactly), the figure is Napoleon Bonaparte.\n\nLet me check my knowledge: Napoleon Bonaparte was known for his military campaigns, including the Italian campaign and later the Russian campaign. His iconic portrait often features him on horseback. The uniform—blue coat, red cape, bicorne hat—that matches his military attire during the early years. Also, the scene depicts him leading troops over mountains, which aligns with the legend of his crossing the Alps (though historically, he didn't actually cross the Alps himself; it's a symbolic depiction).\n\nAlso, the artist's signature at the bottom—wait, it says \"KAROLVS. MAGNVS IMP\"—maybe that's a stylized version or a reference. But regardless, the man is identified by the inscription \"BONAPARTE\" on the rock and historical context. Even if I don't rely solely on the inscription, the visual cues—uniform style, pose, historical significance—point strongly to Napoleon Bonaparte.\n\nI should confirm: Napoleon’s portraits often show him as a commanding general, sometimes with a horse. The bicorne hat with the golden braids and the red cloak are characteristic elements. Plus, the presence of soldiers and artillery in the background fits a military expedition. Given all this, and the explicit inscription of \"BONAPARTE,\" the man must be Napoleon Bonaparte.\n\nSo the answer is Napoleon Bonaparte. The question asks to use external knowledge to identify him, so since we know this painting is a depiction of Napoleon (even if the inscription helps confirm), the conclusion is clear.\n&lt;/think&gt;\n\n&lt;answer&gt;\nThe image depicts a man on horseback in military attire—including a bicorne hat with gold trim, a blue coat, gold-embroidered uniform details, and a red cloak flowing behind him. The horse is rearing, and the background includes soldiers, cannon wheels, and mountainous terrain. At the bottom left, an inscription reads *“BONAPARTE”* on a snow-covered rock, along with a partially visible artist’s signature (*“KAROLVS. MAGNVS IMP”*). Historically, this artwork aligns with depictions of **Napoleon Bonaparte**, the French military leader and Emperor, often portrayed in grand equestrian scenes symbolizing leadership and conquest. While the inscription directly labels the figure as “Bonaparte,” external knowledge confirms the depiction corresponds to Napoleon Bonaparte, whose iconography (uniform style, pose, and symbolic portrayal as a commanding general) matches the imagery.  \n\n\\boxed{Napoleon Bonaparte}\n&lt;/answer&gt;" }];
+        let index = 0;
+
+        const demoLabel = document.getElementById('demoLabel');
+        const stepLabel = document.getElementById('stepLabel');
+        const questionText = document.getElementById('questionText');
+        const problemImage = document.getElementById('problemImage');
+        const assistantText = document.getElementById('assistantText');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function normalizeAssistant(raw) {
+            const lines = String(raw).replace(/\r\n/g, '\n').split('\n');
+            while (lines.length && lines[0].trim() === '') lines.shift();
+            while (lines.length && lines[lines.length - 1].trim() === '') lines.pop();
+            const isTagLine = l => /^\s*&lt;\/?(?:think|answer)&gt;\s*$/i.test(l);
+            let minIndent = Infinity;
+            for (const l of lines) {
+                if (!l.trim() || isTagLine(l)) continue;
+                const m = l.match(/^[ \t]*/);
+                const n = m ? m[0].length : 0;
+                if (n < minIndent) minIndent = n;
+            }
+            if (!Number.isFinite(minIndent)) minIndent = 0;
+            return lines.map(l => {
+                if (isTagLine(l)) return l.trim();
+                if (!l.trim()) return '';
+                return l.slice(Math.min(minIndent, (l.match(/^[ \t]*/) || [''])[0].length)).trimEnd();
+            }).join('\n');
+        }
+
+        function render() {
+            const item = DEMOS[index];
+            demoLabel.textContent = item.demo;
+            stepLabel.textContent = (index + 1) + '/' + DEMOS.length;
+            questionText.textContent = item.question;
+            problemImage.src = item.image || '';
+            problemImage.style.display = item.image ? 'block' : 'none';
+            assistantText.innerHTML = normalizeAssistant(item.assistant);
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === DEMOS.length - 1;
+        }
+
+        prevBtn.addEventListener('click', () => { if (index > 0) { index--; render(); } });
+        nextBtn.addEventListener('click', () => { if (index < DEMOS.length - 1) { index++; render(); } });
+        render();
+    </script>
+</body>
+
+</html>

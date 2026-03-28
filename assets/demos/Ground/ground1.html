@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conversation Example</title>
+    <style>
+        :root {
+            --bg: #f5f6fa;
+            --card: #ffffff;
+            --line: #e6e8f0;
+            --text: #1f2430;
+            --muted: #697084;
+            --brand: #5b62f1;
+            --assistant: #3f46d8;
+            --prompt-bg: #f2f4fa;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 36px 20px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .wrap {
+            max-width: 880px;
+            margin: 0 auto;
+        }
+
+        .chat-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--line);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .chat-header .demo {
+            color: var(--brand);
+            margin-right: 14px;
+        }
+
+        .chat-header .title {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .chat-header .step {
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .chat-body {
+            padding: 18px 16px 22px;
+            background: #fbfcff;
+        }
+
+        .user-turn {
+            margin-left: auto;
+            width: min(620px, 92%);
+            background: var(--prompt-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 14px;
+        }
+
+        .user-question {
+            margin: 0 0 10px;
+            font-size: 17px;
+            line-height: 1.5;
+            white-space: pre-line;
+        }
+
+        .problem-image {
+            width: 100%;
+            border: 1px solid #dde1ec;
+            border-radius: 8px;
+            display: block;
+            object-fit: cover;
+            background: #fff;
+        }
+
+        .assistant-turn {
+            margin-top: 16px;
+            padding-right: 10px;
+            max-width: 95%;
+        }
+
+        .assistant-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .assistant-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            background: linear-gradient(135deg, #6f7bff, #4a55ea);
+            color: white;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .assistant-content {
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: #f8f9ff;
+            padding: 14px;
+            color: #2a3040;
+        }
+
+        .assistant-scroll {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 560px;
+            overflow: auto;
+            font-size: 15px;
+            line-height: 1.55;
+            color: #273044;
+            font-family: inherit;
+        }
+
+        .assistant-content p {
+            margin: 0 0 10px;
+        }
+
+        .assistant-content ol,
+        .assistant-content ul {
+            margin: 8px 0 12px 24px;
+            padding: 0;
+        }
+
+        .assistant-content li {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="chat-card" aria-label="Example conversation">
+            <header class="chat-header">
+                <div>
+                    <span class="demo">Demo1</span>
+                </div>
+                <span class="step">1/3</span>
+            </header>
+
+            <div class="chat-body">
+                <article class="user-turn" aria-label="User message with image and question">
+                    <p class="user-question">A white SUV is driving on the road. There is a red sedan with a white roof
+                        at the top right and a blue bus at the top left. Where is the white SUV located? Output the
+                        bounding box(es) in JSON array format:
+                        <code>[{"bbox_2d": [x_min, y_min, x_max, y_max], "label": "&lt;class name&gt;"}]</code></p>
+                    <img class="problem-image" src="example_ground1.png" alt="Math problem screenshot" />
+                </article>
+
+                <article class="assistant-turn" aria-label="Model response">
+                    <div class="assistant-head">
+                        <span class="assistant-icon">✦</span>
+                        <span>Vero</span>
+                    </div>
+                    <div class="assistant-content">
+                        <pre class="assistant-scroll">&lt;think&gt;
+Got it, let's look at the image. The question is asking for the location of a white SUV. First, I need to identify all vehicles mentioned: white SUV, red sedan with white roof (top right), blue bus (top left). But the main focus is the white SUV.
+
+Looking at the lower part of the image, near the bottom center on the highway. Let's check the roads. There's a multi-lane road with cars. Let me scan for a white SUV. 
+
+First, check the highways. In the foreground (lower part), there's a white car. Wait, the problem says "white SUV". Let's find that. On the road below the pedestrian bridge: there's a white SUV. Let's check coordinates.
+
+The white SUV—maybe the car on the middle lane. Let's see: in the lower section, on the highway. Let's locate:
+
+- Blue bus: top left? Maybe the bus on the left side, but the blue bus mentioned is "at the top left". Looking at the lower part near the bridge: there's a blue bus (bus) on the left. But the SUV is another vehicle.
+
+Wait, the question states: "a white SUV is driving on the road, there is a red sedan with a white roof driving at the top right and a blue bus at the top left. Where is the white SUV located?"
+
+So we need to find the white SUV. Let's look for white SUV. Let's check each vehicle:
+
+1. Blue bus: top left area. Let's see—near the bottom left of the image, under the glass buildings, there's a bus (blue) on the road. Bounding box for that bus: [426, 713, 451, 772].
+
+2. Red sedan with white roof: maybe a taxi (red with white roof) in the top right. For example, on the upper highway—there are red taxis with white roofs. But the SUV is separate.
+
+3. White SUV: looking for a white SUV. In the lower roads: on the highway below the pedestrian bridge. Let's check the lanes. The white SUV would be a larger white car.
+
+On the highway (lower part), there's a white car. Let's check:
+
+- A white SUV: [450, 833, 469, 875] (this is a white car/suv in the lane).
+
+- Another white SUV? Let's see other white vehicles. Also, a white van or something else.
+
+But the specific white SUV: let's confirm. The white SUV is likely [450, 833, 469, 875]. Let me check again.
+
+Other white vehicles: another car further ahead. But the most prominent white SUV is around that spot.
+
+Also, check if there's another SUV. The problem states "the white SUV" so one instance.
+
+So bounding box for white SUV: [450, 833, 469, 875].
+
+Now, confirm the coordinates. The image shows a multi-level highway. The SUV is on the roadway below the pedestrian bridge, in the leftmost lane (or middle lanes).
+
+Yes, [450, 833, 469, 875] seems to be the white SUV.
+&lt;/think&gt;
+
+&lt;answer&gt;
+To locate the white SUV, examine the image focusing on vehicles described. The blue bus is near the top-left (e.g., near the bridge lower left: `[426, 713, 451, 772]`), and the red sedan with a white roof appears among vehicles in the upper right. The white SUV must be identified separately. Scanning the lower highway sections (below the pedestrian bridge), a white SUV is visible in the middle lane:  
+
+- **White SUV**: `[450, 833, 469, 875]`  
+
+This matches the description of a white SUV on the road, distinct from the bus and sedan specified.  
+
+\boxed{[{"bbox_2d": [450, 833, 469, 875], "label": "white SUV"}]}
+&lt;/answer&gt;</pre>
+                        <img src="example_ground1_bbox.png" alt="Bounding box visualization"
+                            style="width:100%;border:1px solid #dde1ec;border-radius:8px;display:block;margin-top:12px;" />
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                const blocks = Array.from(document.querySelectorAll('.assistant-scroll'));
+                window.MathJax.typesetPromise(blocks).catch(() => { });
+            }
+        }, { once: true });
+    </script>
+</body>
+
+</html>

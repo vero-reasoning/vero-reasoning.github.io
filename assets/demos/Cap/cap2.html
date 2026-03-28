@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conversation Example</title>
+    <style>
+        :root {
+            --bg: #f5f6fa;
+            --card: #ffffff;
+            --line: #e6e8f0;
+            --text: #1f2430;
+            --muted: #697084;
+            --brand: #5b62f1;
+            --assistant: #3f46d8;
+            --prompt-bg: #f2f4fa;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 36px 20px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .wrap {
+            max-width: 880px;
+            margin: 0 auto;
+        }
+
+        .chat-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--line);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .chat-header .demo {
+            color: var(--brand);
+            margin-right: 14px;
+        }
+
+        .chat-header .title {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .chat-header .step {
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .chat-body {
+            padding: 18px 16px 22px;
+            background: #fbfcff;
+        }
+
+        .user-turn {
+            margin-left: auto;
+            width: min(620px, 92%);
+            background: var(--prompt-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 14px;
+        }
+
+        .user-question {
+            margin: 0 0 10px;
+            font-size: 17px;
+            line-height: 1.5;
+            white-space: pre-line;
+        }
+
+        .problem-image {
+            width: 100%;
+            border: 1px solid #dde1ec;
+            border-radius: 8px;
+            display: block;
+            object-fit: cover;
+            background: #fff;
+        }
+
+        .assistant-turn {
+            margin-top: 16px;
+            padding-right: 10px;
+            max-width: 95%;
+        }
+
+        .assistant-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .assistant-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            background: linear-gradient(135deg, #6f7bff, #4a55ea);
+            color: white;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .assistant-content {
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: #f8f9ff;
+            padding: 14px;
+            color: #2a3040;
+        }
+
+        .assistant-scroll {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 560px;
+            overflow: auto;
+            font-size: 15px;
+            line-height: 1.55;
+            color: #273044;
+            font-family: inherit;
+        }
+
+        .assistant-content p {
+            margin: 0 0 10px;
+        }
+
+        .assistant-content ol,
+        .assistant-content ul {
+            margin: 8px 0 12px 24px;
+            padding: 0;
+        }
+
+        .assistant-content li {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="chat-card" aria-label="Example conversation">
+            <header class="chat-header">
+                <div>
+                    <span class="demo">Demo2</span>
+                </div>
+                <span class="step">2/3</span>
+            </header>
+
+            <div class="chat-body">
+                <article class="user-turn" aria-label="User message with image and question">
+                    <p class="user-question">Assume this object has a hidden feature that's not visible in the image.
+                        Describe this feature and its purpose in a metaphorical sense, and connect it to the urban
+                        setting it is in, all in three sentences.
+                    </p>
+                    <img class="problem-image" src="example_cap2.png" alt="Math problem screenshot" />
+                </article>
+
+                <article class="assistant-turn" aria-label="Model response">
+                    <div class="assistant-head">
+                        <span class="assistant-icon">✦</span>
+                        <span>Vero</span>
+                    </div>
+                    <div class="assistant-content">
+                        <pre class="assistant-scroll">&lt;think&gt;
+Hmm, let's tackle this question. The user wants me to describe a hidden feature of the bicycle (not visible in the image) metaphorically, connect it to the urban setting, and keep it to three sentences. Okay, first I need to come up with a hidden feature. Maybe something like a secret compartment or an unseen part that symbolizes something urban.
+
+Wait, the feature has to be metaphorical. Maybe the bike has a hidden "resilience" or "quiet strength" that isn't obvious. But I need to phrase it as a hidden physical feature. Oh, maybe a hidden gear that powers silent movement through city chaos—like an unnoticed adaptation. But how to tie it metaphorically to the urban setting?
+
+Okay, the bike is on a sidewalk near a street with cars and buildings. The hidden feature should metaphorically reflect urban life. Maybe: The bicycle harbors a hidden spring within its frame—a subtle tension waiting to propel it forward when the city’s rush stirs. Like roots gripping stone beneath pavement cracks, this unseen resilience quietly absorbs the concrete’s harshness, turning daily commutes into journeys of quiet endurance. It is the unspoken promise of stillness amidst motion, a silent guardian that turns the sidewalk’s chaos into pathways of calm persistence.
+
+Check: Three sentences, metaphorical feature (spring/tension), connects to urban setting (concrete, commutes, sidewalk chaos). Made sure not to mention visible parts beyond the metaphor. Okay, that should work.
+&lt;answer&gt;
+The bicycle holds a hidden pulse within its frame—a silent reservoir of patience, humming just below the surface like a subway line waiting for the next train to awaken the city. This unseen rhythm mirrors the urban landscape’s quiet resilience, absorbing the jarring rhythms of passing cars and hurried footsteps without breaking its own steady cadence. In the concrete embrace of the sidewalk, it becomes a vessel for stillness, transforming the rush of streets into a deliberate, unhurried dance with time.  
+&lt;/answer&gt;</pre>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                const blocks = Array.from(document.querySelectorAll('.assistant-scroll'));
+                window.MathJax.typesetPromise(blocks).catch(() => { });
+            }
+        }, { once: true });
+    </script>
+</body>
+
+</html>

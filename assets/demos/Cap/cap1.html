@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conversation Example</title>
+    <style>
+        :root {
+            --bg: #f5f6fa;
+            --card: #ffffff;
+            --line: #e6e8f0;
+            --text: #1f2430;
+            --muted: #697084;
+            --brand: #5b62f1;
+            --assistant: #3f46d8;
+            --prompt-bg: #f2f4fa;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 36px 20px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .wrap {
+            max-width: 880px;
+            margin: 0 auto;
+        }
+
+        .chat-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--line);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .chat-header .demo {
+            color: var(--brand);
+            margin-right: 14px;
+        }
+
+        .chat-header .title {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .chat-header .step {
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .chat-body {
+            padding: 18px 16px 22px;
+            background: #fbfcff;
+        }
+
+        .user-turn {
+            margin-left: auto;
+            width: min(620px, 92%);
+            background: var(--prompt-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 14px;
+        }
+
+        .user-question {
+            margin: 0 0 10px;
+            font-size: 17px;
+            line-height: 1.5;
+            white-space: pre-line;
+        }
+
+        .problem-image {
+            width: 100%;
+            border: 1px solid #dde1ec;
+            border-radius: 8px;
+            display: block;
+            object-fit: cover;
+            background: #fff;
+        }
+
+        .assistant-turn {
+            margin-top: 16px;
+            padding-right: 10px;
+            max-width: 95%;
+        }
+
+        .assistant-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .assistant-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            background: linear-gradient(135deg, #6f7bff, #4a55ea);
+            color: white;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .assistant-content {
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: #f8f9ff;
+            padding: 14px;
+            color: #2a3040;
+        }
+
+        .assistant-scroll {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 560px;
+            overflow: auto;
+            font-size: 15px;
+            line-height: 1.55;
+            color: #273044;
+            font-family: inherit;
+        }
+
+        .assistant-content p {
+            margin: 0 0 10px;
+        }
+
+        .assistant-content ol,
+        .assistant-content ul {
+            margin: 8px 0 12px 24px;
+            padding: 0;
+        }
+
+        .assistant-content li {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="chat-card" aria-label="Example conversation">
+            <header class="chat-header">
+                <div>
+                    <span class="demo">Demo1</span>
+                </div>
+                <span class="step">1/3</span>
+            </header>
+
+            <div class="chat-body">
+                <article class="user-turn" aria-label="User message with image and question">
+                    <p class="user-question">Write a four-line rhyming poem capturing the essence of the scene, where
+                        each line highlights a different visual element from the image.</p>
+                    <img class="problem-image" src="example_cap1.png" alt="Math problem screenshot" />
+                </article>
+
+                <article class="assistant-turn" aria-label="Model response">
+                    <div class="assistant-head">
+                        <span class="assistant-icon">✦</span>
+                        <span>Vero</span>
+                    </div>
+                    <div class="assistant-content">
+                        <pre class="assistant-scroll">&lt;think&gt;
+Hmm, let's see. The question is to write a four-line rhyming poem capturing the essence of the scene, with each line highlighting a different visual element from the image. Okay, first I need to identify key visual elements in the image. There's a skateboarder mid-air doing a trick, another person on a bike, graffiti-covered buildings, maybe some people around, ramps or skate structures.
+
+Okay, so each line must focus on a different element. Let me brainstorm: maybe start with the skateboarder jumping (line 1), then the bike rider (line 2), graffiti walls (line 3), and the setting like the skate park or buildings (line 4). Need rhyming scheme—maybe AABB or ABAB. Four lines, each with a different element and a rhyme.
+
+Line 1: Skateboarder leaping—maybe "mid-air leap" or "skater flies". Rhyme with next line. Line 2: Bike rider. Maybe "biker pedals steady". Rhyme with line 1? Like "leap" and "steady" don't rhyme. Maybe ABAB. Line 1: leap (A), Line 2: bike (B), Line 3: graffiti (A), Line 4: park (B). Wait, better to stick to AABB for simplicity.
+
+First line: skateboarder's jump. "A skater arcs through air so high." Second line: bike rider. Maybe "A cyclist pedals, steady, by." Third line: graffiti walls. "Graffiti blooms on walls so bold." Fourth line: skate park vibe. "Concrete park where youth unfold." Check rhymes: high/by—no. Maybe adjust second line to end with a rhyme for 'high'. Maybe "A skater arcs through air so high, / A biker waits on bicycle's thigh." But thighs aren't ideal. Alternatively, "A skater leaps with board unfurled, / A cyclist holds his balance curled." Hmm, not great. Maybe "Skateboarder soars, mid-air grace, / Bike rider pedals in that space." Then graffiti: "Graffiti paints the brick wall bright," and last line: "Youth gather here, bathed in day's light."
+
+Wait, needs rhyming. Let me try:
+
+1. A skater leaps, board spinning free,  
+2. While cyclist pedals down the street.  
+3. Graffiti swirls where colors meet,  
+4. Under sky, a vibrant beat.  
+
+But check elements: line 1—skater, line 2—bike rider, line 3—graffiti, line 4—the park/scene. Rhyme scheme AABB. Lines 1&2 don't perfectly rhyme. Maybe:
+
+A skater arcs through air so high,  
+A cyclist pedals, steady by.  
+Graffiti bursts on walls nearby,  
+Skate park pulses, wild and free.  
+
+"High" and "by" don't rhyme well. Let's tweak line 2 to rhyme with "high". Maybe:
+
+A skater soars on board above,  
+Where bike rider moves, steadily love.  
+Graffiti paints the brick wall deep,  
+The city's heartbeat never sleep.  
+
+But "above" and "love" don't rhyme. Maybe:
+
+A skater leaps on board unfurled,  
+Bike rider waits, still steady girl.  
+Graffiti flames on wall so grand,  
+Concrete dreams across the land.  
+
+Okay, "unfurled" and "girl" don't quite. Alternatively, make line 1 end with a word that rhymes with line 4. Let's aim for AABB:
+
+1. A skater vaults, board slicing air,  
+2. A cyclist pedals, strong and there.  
+3. Walls blaze with tags, bold, vivid, bright,  
+4. Youth find their joy in daylight.  
+
+"Air" and "there" – weak rhyme. Maybe "air" rhymes with "pair", but maybe accept. Or better:
+
+1. Skateboarder soars, mid-flight, so bold,  
+2. Cyclist waits, story to be told.  
+3. Graffiti swirls in hues alive,  
+4. Skate park thrums, beneath the hive.  
+
+Wait, "bold" and "told"—not perfect. Maybe adjust:
+
+1. A skater arcs, defying ground,  
+2. A cyclist glides, without a sound.  
+3. Walls speak in colors, bold and bright,  
+4. Youth gather here, day’s warm light.  
+
+Yes! This works. Each line a different element: skater (line1), cyclist (line2), graffiti (line3), skate park/youth scene (line4). Rhyme scheme AABB: ground/sound, bright/light. Good.
+&lt;/think&gt;
+
+&lt;answer&gt;
+A skater arcs, defying ground,  
+A cyclist glides, without a sound.  
+Walls speak in colors, bold and bright,  
+Youth gather here, day’s warm light. 
+&lt;/answer&gt;</pre>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                const blocks = Array.from(document.querySelectorAll('.assistant-scroll'));
+                window.MathJax.typesetPromise(blocks).catch(() => { });
+            }
+        }, { once: true });
+    </script>
+</body>
+
+</html>

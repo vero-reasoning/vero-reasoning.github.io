@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chart & OCR Demos</title>
+    <style>
+        :root {
+            --bg: #f5f6fa;
+            --card: #ffffff;
+            --line: #d6e1ee;
+            --text: #0D2137;
+            --muted: #697084;
+            --brand: #1976D2;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 36px 20px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .wrap {
+            max-width: 780px;
+
+            margin: 0 auto;
+        }
+
+        /* ── Card ─────────────────────────────────────── */
+        .chat-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+        }
+
+        /* ── Header ──────────────────────────────────── */
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 15px;
+        }
+
+        .demo-tag {
+            color: var(--brand);
+            font-weight: 700;
+        }
+
+        .header-sep {
+            color: var(--muted);
+            font-weight: 400;
+        }
+
+        .header-title {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .pager {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-btn {
+            border: none;
+            background: none;
+            color: var(--muted);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 2px 7px;
+            border-radius: 6px;
+            line-height: 1;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: var(--line);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .step {
+            color: var(--muted);
+            font-size: 14px;
+            min-width: 38px;
+            text-align: center;
+        }
+
+        /* ── Chat body ───────────────────────────────── */
+        .chat-body {
+            padding: 20px 18px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            background: #f9fafb;
+        }
+
+        /* ── User turn (right bubble) ────────────────── */
+        .user-turn {
+            align-self: flex-end;
+            max-width: 75%;
+            background: #ffffff;
+            border: 1px solid var(--line);
+            border-radius: 14px 14px 4px 14px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .user-question {
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.55;
+            color: var(--text);
+            white-space: pre-wrap;
+        }
+
+        .problem-image {
+            width: 100%;
+            max-width: 300px;
+            align-self: flex-end;
+            display: block;
+            border-radius: 8px;
+            border: 1px solid var(--line);
+            object-fit: cover;
+        }
+
+        /* ── Assistant turn (left) ───────────────────── */
+        .assistant-turn {
+            align-self: flex-start;
+            max-width: 92%;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .assistant-avatar {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #1976D2;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .assistant-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .assistant-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--muted);
+            margin-bottom: 5px;
+        }
+
+        .assistant-content {
+            background: #ffffff;
+            border: 1px solid var(--line);
+            border-radius: 4px 14px 14px 14px;
+            padding: 12px 14px;
+        }
+
+        .assistant-scroll {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            overflow: auto;
+            max-height: 560px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text);
+            font-family: inherit;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="chat-card" aria-label="Example conversation">
+            <header class="chat-header">
+                <div class="header-left">
+                    <span class="demo-tag" id="demoLabel">Demo1</span>
+                    <span class="header-sep"></span>
+                    <span class="header-title"></span>
+                </div>
+                <div class="pager">
+                    <button class="nav-btn" id="prevBtn">&#8249;</button>
+                    <span class="step" id="stepLabel">1/3</span>
+                    <button class="nav-btn" id="nextBtn">&#8250;</button>
+                </div>
+            </header>
+
+            <div class="chat-body">
+                <article class="user-turn" aria-label="User message">
+                    <p class="user-question" id="questionText"></p>
+                    <img class="problem-image" id="problemImage" src="" alt="Chart & OCR problem screenshot" />
+                </article>
+
+                <article class="assistant-turn" aria-label="Model response">
+                    <div class="assistant-avatar" id="assistantAvatar">V</div>
+                    <div class="assistant-body">
+                        <div class="assistant-name" id="assistantName">Vero</div>
+                        <div class="assistant-content">
+                            <div class="assistant-scroll" id="assistantText"></div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const DEMOS = [{ "demo": "Chart & OCR 1", "question": "After which year from the x-axis labels, the hour prices in canada first exceeded new zealand?", "image": "example_chart1.png", "assistant": "&lt;think&gt;\nHmm, let's see. The question is asking after which year from the x-axis labels the house prices in Canada first exceeded New Zealand. Okay, so I need to look at the graph and compare the Canada line (blue) with the New Zealand line (pink).\n\nFirst, I should check the x-axis labels: 2016, 2017, 2018, 2019, 2020, 2021. Wait, actually the labels are at the bottom: starting from maybe before 2016, but the marked years are 2016, 2017, etc. So the years we need to consider are from 2016 onwards.\n\nNow, looking at the lines: Canada is the light blue line, New Zealand is pink. I need to find the first year where Canada's line goes above New Zealand's. Let me check each year step by step.\n\nStarting around 2015 or so (before 2016), but the x-axis labels start at 2016. Wait, the earliest point we can see is around 2015-2016. Let me look closely at the intersection points.\n\nIn 2016: Canada's line seems to be slightly above New Zealand? Wait, at the beginning of the chart (around 2015), both lines are close. Maybe in 2016, the pink line (New Zealand) is a bit higher than Canada? Wait, let's check the values.\n\nWait, the y-axis is from 90 to 150. Let me check each year:\n\n2016: Canada line (blue) is below New Zealand's pink line? Let me see—Canada's line in 2016: maybe around 100-105? New Zealand's line in 2016: around 105-110. Wait, no, actually in 2016, New Zealand's line is rising from earlier. Wait, prior to 2016, the lines were overlapping. But specifically for the years labeled on the x-axis (2016 onward):\n\nLooking at 2016: Canada line (blue) and New Zealand (pink) both starting at around 100-105. Maybe Canada's line dips slightly below New Zealand's in 2016. Then 2017: Canada's line rises above New Zealand?\n\nWait, let's see: In 2017, Canada's line—around 110-115? New Zealand's line: in 2017, the pink line is maybe around 115-120. Hmm, perhaps Canada crossed above New Zealand later.\n\nWait, another approach: Find the point where Canada's line surpasses New Zealand's. So when does Canada (blue) go above New Zealand (pink)?\n\nLooking at the graph:\n\n- Before 2016: Both lines are close.\n\n- Around 2016: New Zealand's line is rising more steeply than Canada's. So up until maybe 2016-2017.\n\n- By 2017, Canada's line (blue) starts to rise, crossing New Zealand (pink). Wait, in 2017: At the start of 2017, Canada line is maybe around 105, while New Zealand is at about 110. Wait, no. Wait, 2017 data point for Canada: looking at the peak. Wait, maybe in 2017, Canada's line is above New Zealand's.\n\nWait, let's check specific years:\n\n2016: Canada's value seems lower than New Zealand. For example, in 2016, Canada is maybe around 100-103, New Zealand around 105-108.\n\n2017: Canada's line jumps up to maybe 115, while New Zealand is around 118. Wait, but maybe Canada crosses over around late 2016 or early 2017.\n\nWait, but let's track the intersection. The Canada line (blue) and New Zealand line (pink) cross each other. Let's see:\n\nFrom left to right: Until around 2016, New Zealand is slightly above Canada. Then Canada rises more steeply. Maybe around 2017: Canada overtakes New Zealand.\n\nWait, looking at the graph: The Canada line and New Zealand line intersect somewhere between 2016 and 2017. So the first time after that intersection Canada exceeds New Zealand would be after 2016. But the question asks \"after which year from the x-axis labels\"—the years labeled are 2016, 2017, etc.\n\nSo if they cross in 2016-2017, then starting in 2017, Canada's price exceeds New Zealand's. Wait, but maybe during 2017, Canada's line is already above.\n\nLet me check the 2017 marker: Canada's line at 2017 has a higher value than New Zealand's. Wait, at 2017 mark:\n\nCanada's line: At 2017, it reaches a peak, maybe around 120.\n\nNew Zealand: at 2017, the pink line is maybe around 115.\n\nYes, perhaps Canada crosses above New Zealand around mid-2016 or early 2017. But since the x-axis labels are yearly markers, the next year after the crossover.\n\nWait, the question says \"after which year from the x-axis labels\". So if the crossover happens during 2017, then after 2017, but the first year where Canada exceeds New Zealand would be 2017. Wait, but if in 2017 Canada is already above, then the answer is 2017.\n\nBut let me check again. For instance:\n\nAt the beginning of 2016, Canada and New Zealand might be roughly equal. But looking at the graph:\n\nAround 2016: Canada's line is a bit lower than New Zealand's.\n\nBy early 2017: Canada catches up and surpasses. Let's say Canada crosses New Zealand's line sometime in 2017, so after 2016, and the first year where Canada's prices exceed New Zealand's is 2017.\n\nWait, the problem says \"after which year from the x-axis labels\", so possibly the first year where this happens. So if it crossed in 2017, then 2017 would be the answer.\n\nAlternatively, maybe looking at the specific year labels: After 2016 (i.e., starting in 2017). But since the label is 2017, the year after 2016.\n\nAnother way: Check 2016 vs 2017.\n\nIn 2016: New Zealand's line is above Canada's (pink > blue).\n\nIn 2017: Canada's line is above New Zealand's (blue > pink).\n\nTherefore, Canada first exceeds New Zealand in 2017.\n\nWait, but wait: Let's check the exact data points.\n\nFor example, in 2016: Canada's line (blue) is about 105, New Zealand's (pink) is around 108. So New Zealand still higher.\n\n2017: Canada line peaks at ~120, New Zealand around ~115. So Canada higher now.\n\nThus, in 2017, Canada exceeds New Zealand.\n\nHence, the answer is 2017.\n&lt;/think&gt;\n\n&lt;answer&gt;\nThe graph shows house price trends for various countries from around 2015 to 2021, with Canada represented by the light blue line and New Zealand by the pink line. To determine when Canada’s house prices first exceeded New Zealand’s, we compare the two lines year by year.  \n\n- **Before 2016**: Both lines are relatively close, but New Zealand (pink) appears slightly above Canada (light blue) near the start of the period.  \n- **2016**: New Zealand’s line remains above Canada’s, though the gap narrows.  \n- **2017**: Canada’s line (light blue) rises above New Zealand’s (pink), with Canada’s values consistently exceeding New Zealand’s from this year onward.  \n\nSince the x-axis labels include yearly markers (e.g., 2016, 2017), and Canada’s line surpasses New Zealand’s *starting in 2017*, the first year after which Canadian house prices exceeded New Zealand’s is 2017.  \n\n\\boxed{2017}\n&lt;/answer&gt;" }, { "demo": "Chart & OCR 2", "question": "The highest score is reached by what approach?", "image": "example_chart3.png", "assistant": "&lt;think&gt;\nOkay, let's see. The question is asking which approach reaches the highest score. The graph has three lines: orange (Vocab size 15, with prior), red (Vocab size 10k, with prior), and blue (Vocab size 10k, no prior). I need to check where each line peaks.\n\nLooking at the y-axis, the scores go up to around 4. The red line (10k with prior) starts lower than the orange one but after about 1.5 million steps, it seems to climb higher. Wait, actually, the orange line (vocab 15, with prior) stays around 3 maybe? The red line goes up a bit higher. Let me check again.\n\nAt the beginning, both orange and red lines start low. The orange (15 vocab) rises more steeply initially but then plateaus. The red line (10k with prior) catches up around 1.5M steps and then keeps going higher. By 3M steps, the red line's score is the highest among all three. The blue line is almost flat near zero, so it's not competitive.\n\nWait, the orange line (vocab 15) has a peak around 3.5 maybe? But the red line (10k with prior) is above that. Let me confirm the values. At Env Steps=3M, the red line is slightly higher than orange. The peak of the red line seems to stabilize around 3.2-3.4, while orange is maybe around 3.0. So red line (Vocab size 10k, with prior) has the highest score. The blue line remains low. Therefore, the approach with the highest score is \"Vocab size 10k, with prior.\"\n&lt;/think&gt;\n\n&lt;answer&gt;\nThe graph displays three approaches' performance over environment steps (x-axis) with their scores (y-axis):  \n- **Orange line**: Vocab size 15, with prior (starts rising early but plateaus around ~3.0 score).  \n- **Red line**: Vocab size 10k, with prior (initially lower than orange, catches up around 1.5M steps and stabilizes at the highest score, peaking near ~3.3–3.4).  \n- **Blue line**: Vocab size 10k, no prior (remains near 0 throughout, negligible performance).  \n\nBy 3M environment steps, the red line (Vocab size 10k, with prior) consistently maintains the highest score compared to the other two approaches.  \n\n\\boxed{Vocab size 10k, with prior}\n&lt;/answer&gt;" }, { "demo": "Chart & OCR 3", "question": "Which three business types is Pinterest good for?", "image": "example_chart2.png", "assistant": "&lt;think&gt;\nOkay, let's see. The question is asking for the three business types that Pinterest is good for. I need to check the Pinterest section of the cheat sheet.\n\nLooking at the Pinterest part: under \"Good for these business types,\" there are icons and labels. The first icon is a fork and knife labeled Restaurants, then a design-related icon for Interior design, and another icon that looks like a ring or wedding band labeled Wedding venues. \n\nWait, let me confirm again. The image shows three icons under Pinterest: Restaurants (forks), Interior design (a ruler and maybe a layout), and Wedding venues (two rings). Yeah, those are the three. The other platforms like Twitter have Retail, Nonprofits, etc., but the question specifically asks about Pinterest. So the answer should list those three business types.\n\nI need to make sure there aren't any other entries under Pinterest. The sections below Pinterest in the infographic are for other platforms. Yep, only those three under Pinterest. So the final answer is Restaurants, Interior design, and Wedding venues.\n&lt;/think&gt;\n\n&lt;answer&gt;\nThe infographic lists the business types Pinterest is good for under the \"Good for these business types\" section. Under Pinterest’s section, the icons and labels identify three business types:  \n- **Restaurants** (icon: fork/knife)  \n- **Interior design** (icon: ruler/design tool)  \n- **Wedding venues** (icon: interlocked rings).  \n\nThese are the only three business types explicitly listed for Pinterest in the cheat sheet.  \n\n\\boxed{Restaurants, Interior design, Wedding venues}\n&lt;/answer&gt;" }];
+        let index = 0;
+
+        const demoLabel = document.getElementById('demoLabel');
+        const stepLabel = document.getElementById('stepLabel');
+        const questionText = document.getElementById('questionText');
+        const problemImage = document.getElementById('problemImage');
+        const assistantText = document.getElementById('assistantText');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function normalizeAssistant(raw) {
+            const lines = String(raw).replace(/\r\n/g, '\n').split('\n');
+            while (lines.length && lines[0].trim() === '') lines.shift();
+            while (lines.length && lines[lines.length - 1].trim() === '') lines.pop();
+            const isTagLine = l => /^\s*&lt;\/?(?:think|answer)&gt;\s*$/i.test(l);
+            let minIndent = Infinity;
+            for (const l of lines) {
+                if (!l.trim() || isTagLine(l)) continue;
+                const m = l.match(/^[ \t]*/);
+                const n = m ? m[0].length : 0;
+                if (n < minIndent) minIndent = n;
+            }
+            if (!Number.isFinite(minIndent)) minIndent = 0;
+            return lines.map(l => {
+                if (isTagLine(l)) return l.trim();
+                if (!l.trim()) return '';
+                return l.slice(Math.min(minIndent, (l.match(/^[ \t]*/) || [''])[0].length)).trimEnd();
+            }).join('\n');
+        }
+
+        function render() {
+            const item = DEMOS[index];
+            demoLabel.textContent = item.demo;
+            stepLabel.textContent = (index + 1) + '/' + DEMOS.length;
+            questionText.textContent = item.question;
+            problemImage.src = item.image || '';
+            problemImage.style.display = item.image ? 'block' : 'none';
+            assistantText.innerHTML = normalizeAssistant(item.assistant);
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === DEMOS.length - 1;
+        }
+
+        prevBtn.addEventListener('click', () => { if (index > 0) { index--; render(); } });
+        nextBtn.addEventListener('click', () => { if (index < DEMOS.length - 1) { index++; render(); } });
+        render();
+    </script>
+</body>
+
+</html>

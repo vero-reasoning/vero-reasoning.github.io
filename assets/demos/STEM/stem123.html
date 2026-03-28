@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STEM Demos</title>
+    <style>
+        :root {
+            --bg: #f5f6fa;
+            --card: #ffffff;
+            --line: #d6e1ee;
+            --text: #0D2137;
+            --muted: #697084;
+            --brand: #1976D2;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 36px 20px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .wrap {
+            max-width: 780px;
+
+            margin: 0 auto;
+        }
+
+        /* ── Card ─────────────────────────────────────── */
+        .chat-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+        }
+
+        /* ── Header ──────────────────────────────────── */
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 15px;
+        }
+
+        .demo-tag {
+            color: var(--brand);
+            font-weight: 700;
+        }
+
+        .header-sep {
+            color: var(--muted);
+            font-weight: 400;
+        }
+
+        .header-title {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .pager {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-btn {
+            border: none;
+            background: none;
+            color: var(--muted);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 2px 7px;
+            border-radius: 6px;
+            line-height: 1;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: var(--line);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .step {
+            color: var(--muted);
+            font-size: 14px;
+            min-width: 38px;
+            text-align: center;
+        }
+
+        /* ── Chat body ───────────────────────────────── */
+        .chat-body {
+            padding: 20px 18px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            background: #f9fafb;
+        }
+
+        /* ── User turn (right bubble) ────────────────── */
+        .user-turn {
+            align-self: flex-end;
+            max-width: 75%;
+            background: #ffffff;
+            border: 1px solid var(--line);
+            border-radius: 14px 14px 4px 14px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .user-question {
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.55;
+            color: var(--text);
+            white-space: pre-wrap;
+        }
+
+        .problem-image {
+            width: 100%;
+            max-width: 300px;
+            align-self: flex-end;
+            display: block;
+            border-radius: 8px;
+            border: 1px solid var(--line);
+            object-fit: cover;
+        }
+
+        /* ── Assistant turn (left) ───────────────────── */
+        .assistant-turn {
+            align-self: flex-start;
+            max-width: 92%;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .assistant-avatar {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #1976D2;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .assistant-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .assistant-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--muted);
+            margin-bottom: 5px;
+        }
+
+        .assistant-content {
+            background: #ffffff;
+            border: 1px solid var(--line);
+            border-radius: 4px 14px 14px 14px;
+            padding: 12px 14px;
+        }
+
+        .assistant-scroll {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            overflow: auto;
+            max-height: 560px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text);
+            font-family: inherit;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="chat-card" aria-label="Example conversation">
+            <header class="chat-header">
+                <div class="header-left">
+                    <span class="demo-tag" id="demoLabel">Demo1</span>
+                    <span class="header-sep"></span>
+                    <span class="header-title"></span>
+                </div>
+                <div class="pager">
+                    <button class="nav-btn" id="prevBtn">&#8249;</button>
+                    <span class="step" id="stepLabel">1/3</span>
+                    <button class="nav-btn" id="nextBtn">&#8250;</button>
+                </div>
+            </header>
+
+            <div class="chat-body">
+                <article class="user-turn" aria-label="User message">
+                    <p class="user-question" id="questionText"></p>
+                    <img class="problem-image" id="problemImage" src="" alt="STEM problem screenshot" />
+                </article>
+
+                <article class="assistant-turn" aria-label="Model response">
+                    <div class="assistant-avatar" id="assistantAvatar">V</div>
+                    <div class="assistant-body">
+                        <div class="assistant-name" id="assistantName">Vero</div>
+                        <div class="assistant-content">
+                            <div class="assistant-scroll" id="assistantText"></div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const DEMOS = [{ "demo": "STEM 1", "question": "Solve this math problem, and provide detailed solution steps.", "image": "example_math1.png", "assistant": "&lt;think&gt;\nOkay, let's see. The problem says there's a square with infinitely many smaller squares inside, each centered and sides parallel to the original. The ratio of side length of a square to the next inner one is k, where 0 &lt; k &lt; 1. The spaces between the squares are alternately shaded. The shaded area is 64% of the original square, and we need to find k.\n\nHmm, okay. Let me visualize the figure. The outermost square is red (shaded), then a white square inside, then red again, white, etc., alternating. So the shaded regions are the red parts: first ring (outer square minus inner square), then the next ring (between second and third square), etc. Wait, actually, starting from the outside: the first shaded region is the area between the largest square and the next inner square. Then the next space is unshaded (white), then shaded again, so maybe every other ring is shaded.\n\nWait, the problem states: \"the spaces between squares are alternately shaded\". So the space between the outside square and the first inner square is shaded (red), then the space between that inner square and the next is unshaded (white), then between next and next is shaded (red), etc. So the shaded portions are the areas between square n and square n+1 where n is even? Wait, starting from the outside:\n\nOriginal square (side length S) has area S^2. Then the next inner square has side length kS, area k^2 S^2. The space between them (shaded) would be S^2 - k^2 S^2 = S^2(1 - k^2). But wait, the next inner square after that would have side length k*(kS) = k^2 S, so the space between the second inner square and the third would be k^2 S^2 - k^4 S^2 = k^2 S^2(1 - k^2), etc. But the shaded areas alternate. Since the first space (outermost ring) is shaded, the next space (between 1st and 2nd inner square) is white, then shaded, etc.\n\nSo total shaded area is [S^2 - (kS)^2] + [(k^2 S)^2 - (k^3 S)^2]? Wait, no. Wait: First shaded ring: Area = S^2 - (kS)^2.\n\nThen the next inner square is kS side, next inner square is k*(kS) = k^2 S. The space between the first inner square (kS) and second inner square (k^2 S) is white (since alternately shaded), so not counted in shaded. Then the next space between k^2 S and k^3 S is shaded again. So shaded areas are:\n\nFirst ring (outer): S^2 - (kS)^2,\n\nThird ring: (k^2 S)^2 - (k^3 S)^2,\n\nFifth ring: (k^4 S)^2 - (k^5 S)^2,\n\nAnd so on.\n\nWait, but the problem states \"the spaces between squares are alternately shaded\", so starting with shaded at the outermost space. So yes, shaded areas are the rings between square 1 and 2, 3 and 4, 5 and 6, etc.\n\nTherefore, total shaded area is sum_{n=0 to infinity} [ (k^{2n} S^2) - (k^{2n+1} S^2) ) ] ?\n\nWait, perhaps better to model the squares as follows:\n\nLet A0 be the area of the original square: A0 = S^2.\n\nA1 = k^2 S^2 (area of first inner square)\n\nA2 = k^4 S^2 (second inner square)\n\nWait, since each subsequent square has side length multiplied by k. So if A0 is the area of the outermost square (side S), then A1 = (kS)^2 = k^2 S^2, A2 = (k^2 S)^2 = k^4 S^2, etc.\n\nThe shaded regions are A0 - A1 (outer ring), A2 - A3 (next shaded ring), A4 - A5, etc. Because between A1 and A2 is a white space, since alternately shaded.\n\nWait, original square (shaded), then inside is white, then shaded, white, etc. Wait the figure shows outermost square is red (shaded), then white, red, white, etc. So yes: outermost ring (between A0 and A1) is shaded; then ring between A1 and A2 is white; ring between A2 and A3 is shaded; etc. Therefore, shaded areas are:\n\n(A0 - A1) + (A2 - A3) + (A4 - A5) + ...\n\nWhich equals (A0 - A1) + (A2 - A3) + (A4 - A5) + ...\n\nExpressed in terms of k:\n\nEach term: (k^{2n} S^2 - k^{2n + 1} S^2 ) for n starting at 0?\n\nWait:\n\nFirst shaded ring: A0 - A1 = S^2 - k^2 S^2 = S^2(1 - k^2)\n\nSecond shaded ring: A2 - A3 = k^4 S^2 - k^6 S^2 = k^4 S^2(1 - k^2)\n\nThird shaded ring: A4 - A5 = k^8 S^2 - k^{10} S^2 = k^8 S^2(1 - k^2)\n\nEtc.\n\nSo total shaded area = (1 - k^2) S^2 [1 + k^4 + k^8 + k^{12} + ...]\n\nThis is a geometric series with first term 1 and common ratio r = k^4.\n\nSum of infinite geometric series: 1 / (1 - r) = 1 / (1 - k^4), provided |r| &lt; 1.\n\nSo total shaded area = (1 - k^2) S^2 * [1 / (1 - k^4)]\n\nWait, let me check:\n\nWait the series after factoring out (1 - k^2) S^2 is:\n\n(1 - k^2) S^2 [1 + k^4 + k^8 + ... ] = (1 - k^2) S^2 * [1 / (1 - k^4)] because the sum of the series 1 + x + x^2 + ... = 1/(1 - x), here x = k^4.\n\nBut note that 1 - k^4 = (1 - k^2)(1 + k^2). Therefore:\n\nTotal shaded area = (1 - k^2) S^2 * [1 / ((1 - k^2)(1 + k^2))] ) = S^2 / (1 + k^2)\n\nWait, that simplifies nicely:\n\n(1 - k^2)/(1 - k^4) = (1 - k^2)/[(1 - k^2)(1 + k^2)] = 1/(1 + k^2). So total shaded area is S^2 * [1/(1 + k^2)].\n\nWait, but according to the problem statement, the shaded portion is 64% of the original square. So shaded area = 0.64 S^2.\n\nSo setting up:\n\nS^2 / (1 + k^2) = 0.64 S^2\n\nCancel S^2:\n\n1 / (1 + k^2) = 0.64\n\nThen 1 + k^2 = 1 / 0.64 = 1.5625\n\nSo k^2 = 1.5625 - 1 = 0.5625\n\nThus k = sqrt(0.5625) = 0.75 = 3/4.\n\nCheck options: Option D is 3/4.\n\nWait, but let me verify this calculation again.\n\nShaded area sum: (S^2 - k^2 S^2) + (k^4 S^2 - k^6 S^2) + (k^8 S^2 - k^{10} S^2) + ...\n\nFactor out S^2:\n\nS^2 [ (1 - k^2) + (k^4 - k^6) + (k^8 - k^{10}) + ... ]\n\n= S^2 [ (1 - k^2) + k^4(1 - k^2) + k^8(1 - k^2) + ... ]\n\n= S^2 (1 - k^2) [ 1 + k^4 + k^8 + ... ]\n\nSum inside the brackets: infinite geometric series with ratio r = k^4.\n\nSum = 1 / (1 - k^4)\n\nSo total shaded area = S^2 (1 - k^2) * [1 / (1 - k^4)] = S^2 (1 - k^2) / [ (1 - k^2)(1 + k^2) ) ] = S^2 / (1 + k^2)\n\nYes, so shaded area = S^2 / (1 + k^2)\n\nGiven that this equals 64% of S^2:\n\nS^2 / (1 + k^2) = 0.64 S^2 =&gt; 1 / (1 + k^2) = 0.64 =&gt; 1 + k^2 = 1 / 0.64 = 1.5625 =&gt; k^2 = 0.5625 =&gt; k = 0.75 = 3/4.\n\nWhich is option D. So the answer should be D.\n\nWait, but let me cross-verify. If k = 3/4, then k^2 = 9/16.\n\nShaded area = S^2 / (1 + 9/16) = S^2 / (25/16) = (16/25) S^2 = 0.64 S^2. Which matches exactly 64%. Perfect. So yes, k = 3/4.\n\nHence, option D.\n&lt;/think&gt;\n\n&lt;answer&gt;\nThe problem involves calculating k, the ratio of the side lengths of successive nested squares, given that the shaded area (which alternates between the rings between squares) is 64% of the original square's area.\n\nStep 1: Understand the structure of the shaded area\n- The original square has side length S, so its area is S^2.\n- Each inner square has side length scaled by k relative to the outer square:\n    - First inner square: side kS, area k^2S^2\n    - Second inner square: side k^2S, area k^4S^2\n    - Third inner square: side k^3S, area k^6S^2\n- The shaded regions alternate (starting with the outer ring), so shaded area is:\n    (S^2 - k^2S^2) + (k^4S^2 - k^6S^2) + (k^8S^2 - k^10S^2) + ...\n\nStep 2: Sum the shaded area as a geometric series\nFactor out S^2(1 - k^2):\nShaded Area = S^2(1 - k^2)[1 + k^4 + k^8 + ...]\n\nThis is a geometric series with first term 1 and common ratio r = k^4, so:\n1 + k^4 + k^8 + ... = 1 / (1 - k^4)\n\nTherefore:\nShaded Area = S^2(1 - k^2) / (1 - k^4)\n\nSince 1 - k^4 = (1 - k^2)(1 + k^2):\nShaded Area = S^2 / (1 + k^2)\n\nStep 3: Use the given percentage\nGiven shaded area is 64% of the original square:\nS^2 / (1 + k^2) = 0.64S^2\n\nDivide by S^2:\n1 / (1 + k^2) = 0.64\n1 + k^2 = 1 / 0.64 = 1.5625\nk^2 = 0.5625\nk = sqrt(0.5625) = 0.75 = 3/4\n\nFinal Answer\nD\n&lt;/answer&gt;" }, { "demo": "STEM 2", "question": "In triangle ABC, the internal bisectors of ∠B and ∠C meet at a point O. If the measure of ∠A is 80°, what is the measure of ∠BOC?", "image": "example_math2.png", "assistant": "&lt;think&gt;\nOkay, let's see. I need to find the measure of angle BOC in triangle ABC where O is the intersection point of the internal bisectors of angles B and C. Angle A is given as 80 degrees. Hmm, right. So first, maybe I should recall some properties about angle bisectors and triangles.\n\nWait, triangle ABC has angle A = 80°, so the sum of angles in a triangle is 180°, so angles at B and C together must be 180° - 80° = 100°. So angle B + angle C = 100°. Now, since BO and CO are the angle bisectors, each bisects their respective angles. So angle OBC would be half of angle B, and angle OCB would be half of angle C.\n\nLet me write that down. Let’s denote angle ABC as ∠B, so ∠OBC = (1/2)∠B. Similarly, ∠ACB = ∠C, so ∠OCB = (1/2)∠C. Then, in triangle BOC, the angles at B and C are these halves. Wait, but angle at O in triangle BOC is what we need to find, which is ∠BOC.\n\nIn any triangle, the sum of angles is 180°, so in triangle BOC: ∠BOC + ∠OBC + ∠OCB = 180°. So substituting the bisected angles: ∠BOC + (1/2)∠B + (1/2)∠C = 180°. But we know that ∠B + ∠C = 100°, so (1/2)(∠B + ∠C) = 50°. Therefore, ∠BOC + 50° = 180°, so ∠BOC = 130°.\n\nWait, is there another way to check this? Maybe using the formula for the angle formed by two angle bisectors. I remember there's a formula that in a triangle, the measure of the angle formed by the bisectors of two angles is equal to 90° plus half the measure of the third angle. Let me verify that. If angle A is 80°, then angle BOC should be 90° + (angle A)/2 = 90° + 40° = 130°. Yes, that matches. So that formula seems to work here.\n\nSo both methods give the same result. The calculation using the sum of angles in triangle BOC gives 130°, and the formula also gives 130°. So the answer should be 130 degrees. Let me just make sure I didn't mix up any steps. Angle A is 80°, so angles B and C total 100°. Bisecting them gives 50° total in the smaller triangle. So subtracting from 180° gives 130°. Yep, that seems solid. No mistakes spotted here.\n&lt;/think&gt;\n\n&lt;answer&gt;\nIn triangle $ABC$, $\\angle A = 80^\\circ$. Since the sum of angles in a triangle is $180^\\circ$, the remaining angles satisfy $\\angle B + \\angle C = 180^\\circ - 80^\\circ = 100^\\circ$.\n\nPoint $O$ is the intersection of the internal bisectors of $\\angle B$ and $\\angle C$, so $\\angle OBC = \\frac{1}{2}\\angle B$ and $\\angle OCB = \\frac{1}{2}\\angle C$. Adding these gives:\n$$\n\\angle OBC + \\angle OCB = \\frac{1}{2}(\\angle B + \\angle C) = \\frac{1}{2}(100^\\circ) = 50^\\circ.\n$$\n\nIn triangle $BOC$, the sum of angles is $180^\\circ$, so:\n$$\n\\angle BOC = 180^\\circ - (\\angle OBC + \\angle OCB) = 180^\\circ - 50^\\circ = 130^\\circ.\n$$\n\nAlternatively, the formula for the angle between two internal bisectors states $\\angle BOC = 90^\\circ + \\frac{1}{2}\\angle A$. Substituting $\\angle A = 80^\\circ$:\n$$\n\\angle BOC = 90^\\circ + \\frac{1}{2}(80^\\circ) = 90^\\circ + 40^\\circ = 130^\\circ.\n$$\n\nBoth approaches confirm the measure of $\\angle BOC$.\n\n\\boxed{130}\n&lt;/answer&gt;" }, { "demo": "STEM 3", "question": "In a right-angled triangle ABC, squares with areas S1, S2, and S3 are constructed on the sides AB, AC, and BC, respectively. Given that S2 = 5, S3 = 16, and ∠BAC = 90°, what is S1?", "image": "example_math3.png", "assistant": "&lt;think&gt;\n                            Okay, let's see. The problem is about a right-angled triangle ABC with a right angle at A,\n                            since ∠BAC = 90°. Squares are constructed on each side: S1 on AB, S2 on AC, and S3 on BC. We\n                            need to find S1 given that S2 = 5 and S3 = 16.\n\n                            First, I remember that in a right-angled triangle, the Pythagorean theorem applies. The\n                            square of the hypotenuse (the side opposite the right angle) is equal to the sum of the\n                            squares of the other two sides. Wait, but here we have squares built on the sides. So S1 is\n                            the area of the square on AB, S2 on AC, and S3 on BC.\n\n                            Let me confirm the labels. Triangle ABC is right-angled at A, so sides AB and AC are the\n                            legs, and BC is the hypotenuse. Therefore, BC² = AB² + AC². But S1 is the area of the square\n                            on AB, which is AB². Similarly, S2 is AC², and S3 is BC².\n\n                            Given S2 = 5, which is AC² = 5. S3 = 16, which is BC² = 16. Then by Pythagoras, S1 (AB²)\n                            should be S3 - S2. Let me check: BC² = AB² + AC² → 16 = S1 + 5 → S1 = 16 - 5 = 11.\n\n                            Wait, but let me make sure I didn't mix up the sides. Since the right angle is at A, then AB\n                            and AC are the legs, BC is the hypotenuse. Yes, so the squares on the legs would be S1 and\n                            S2, and the square on the hypotenuse is S3. So according to Pythagoras, S1 + S2 = S3.\n                            Therefore, S1 = S3 - S2 = 16 - 5 = 11.\n\n                            Looking back at the diagram: S1 is the green square on AB, S2 on AC (yellow), S3 on BC\n                            (red). The triangle ABC has right angle at A, so yes, AB and AC are legs, BC hypotenuse. So\n                            S1 = S3 - S2 = 11. That seems straightforward.\n                            &lt;/think&gt;\n\n                            &lt;answer&gt;\n                            The problem involves a right-angled triangle $ABC$ with $\\angle BAC = 90^\\circ$, and squares\n                            constructed on its sides $AB$, $AC$, and $BC$, labeled $S_1$, $S_2$, and $S_3$ respectively.\n                            By the Pythagorean theorem, for a right-angled triangle, the square of the hypotenuse equals\n                            the sum of the squares of the other two sides. Here, $BC$ is the hypotenuse (since $\\angle\n                            A$ is the right angle), so:\n\n                            $$\n                            BC^2 = AB^2 + AC^2\n                            $$\n\n                            This translates to:\n                            $$\n                            S_3 = S_1 + S_2\n                            $$\n\n                            Given $S_2 = 5$ and $S_3 = 16$, solve for $S_1$:\n                            $$\n                            S_1 = S_3 - S_2 = 16 - 5 = 11\n                            $$\n\n                            \\boxed{11}\n                            &lt;/answer&gt;" }];
+        let index = 0;
+
+        const demoLabel = document.getElementById('demoLabel');
+        const stepLabel = document.getElementById('stepLabel');
+        const questionText = document.getElementById('questionText');
+        const problemImage = document.getElementById('problemImage');
+        const assistantText = document.getElementById('assistantText');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function normalizeAssistant(raw) {
+            const lines = String(raw).replace(/\r\n/g, '\n').split('\n');
+            while (lines.length && lines[0].trim() === '') lines.shift();
+            while (lines.length && lines[lines.length - 1].trim() === '') lines.pop();
+            const isTagLine = l => /^\s*&lt;\/?(?:think|answer)&gt;\s*$/i.test(l);
+            let minIndent = Infinity;
+            for (const l of lines) {
+                if (!l.trim() || isTagLine(l)) continue;
+                const m = l.match(/^[ \t]*/);
+                const n = m ? m[0].length : 0;
+                if (n < minIndent) minIndent = n;
+            }
+            if (!Number.isFinite(minIndent)) minIndent = 0;
+            return lines.map(l => {
+                if (isTagLine(l)) return l.trim();
+                if (!l.trim()) return '';
+                return l.slice(Math.min(minIndent, (l.match(/^[ \t]*/) || [''])[0].length)).trimEnd();
+            }).join('\n');
+        }
+
+        function render() {
+            const item = DEMOS[index];
+            demoLabel.textContent = item.demo;
+            stepLabel.textContent = (index + 1) + '/' + DEMOS.length;
+            questionText.textContent = item.question;
+            problemImage.src = item.image || '';
+            problemImage.style.display = item.image ? 'block' : 'none';
+            assistantText.innerHTML = normalizeAssistant(item.assistant);
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === DEMOS.length - 1;
+        }
+
+        prevBtn.addEventListener('click', () => { if (index > 0) { index--; render(); } });
+        nextBtn.addEventListener('click', () => { if (index < DEMOS.length - 1) { index++; render(); } });
+        render();
+    </script>
+</body>
+
+</html>

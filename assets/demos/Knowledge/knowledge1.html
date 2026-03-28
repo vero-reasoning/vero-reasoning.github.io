@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conversation Example</title>
+    <style>
+        :root {
+            --bg: #f5f6fa;
+            --card: #ffffff;
+            --line: #e6e8f0;
+            --text: #1f2430;
+            --muted: #697084;
+            --brand: #5b62f1;
+            --assistant: #3f46d8;
+            --prompt-bg: #f2f4fa;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 36px 20px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .wrap {
+            max-width: 880px;
+            margin: 0 auto;
+        }
+
+        .chat-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--line);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .chat-header .demo {
+            color: var(--brand);
+            margin-right: 14px;
+        }
+
+        .chat-header .title {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .chat-header .step {
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .chat-body {
+            padding: 18px 16px 22px;
+            background: #fbfcff;
+        }
+
+        .user-turn {
+            margin-left: auto;
+            width: min(620px, 92%);
+            background: var(--prompt-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 14px;
+        }
+
+        .user-question {
+            margin: 0 0 10px;
+            font-size: 17px;
+            line-height: 1.5;
+            white-space: pre-line;
+        }
+
+        .problem-image {
+            width: 100%;
+            border: 1px solid #dde1ec;
+            border-radius: 8px;
+            display: block;
+            object-fit: cover;
+            background: #fff;
+        }
+
+        .assistant-turn {
+            margin-top: 16px;
+            padding-right: 10px;
+            max-width: 95%;
+        }
+
+        .assistant-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .assistant-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            background: linear-gradient(135deg, #6f7bff, #4a55ea);
+            color: white;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .assistant-content {
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: #f8f9ff;
+            padding: 14px;
+            color: #2a3040;
+        }
+
+        .assistant-scroll {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 560px;
+            overflow: auto;
+            font-size: 15px;
+            line-height: 1.55;
+            color: #273044;
+            font-family: inherit;
+        }
+
+        .assistant-content p {
+            margin: 0 0 10px;
+        }
+
+        .assistant-content ol,
+        .assistant-content ul {
+            margin: 8px 0 12px 24px;
+            padding: 0;
+        }
+
+        .assistant-content li {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="chat-card" aria-label="Example conversation">
+            <header class="chat-header">
+                <div>
+                    <span class="demo">Demo1</span>
+                </div>
+                <span class="step">1/3</span>
+            </header>
+
+            <div class="chat-body">
+                <article class="user-turn" aria-label="User message with image and question">
+                    <p class="user-question">Use external knowledge to identify who the man riding the horse is.</p>
+                    <img class="problem-image" src="example_knowledge1.png" alt="Math problem screenshot" />
+                </article>
+
+                <article class="assistant-turn" aria-label="Model response">
+                    <div class="assistant-head">
+                        <span class="assistant-icon">✦</span>
+                        <span>Vero</span>
+                    </div>
+                    <div class="assistant-content">
+                        <pre class="assistant-scroll">&lt;think&gt;
+Hmm, let's see. The question is asking to identify the man riding the horse using external knowledge. Okay, first I need to look at the image. There's a man on a white horse, wearing a military uniform with a bicorne hat that has a gold trim and some insignia. He's holding a red cape that's flowing behind him, and he's raising one hand in a gesture. The horse is rearing up, and there are soldiers and cannon wheels in the background. Also, at the bottom left corner of the painting, there's text that says "BONAPARTE" written on a rock, and below that, part of another inscription: "KAROLVS. MAGNVS IMP".
+
+Wait, but maybe the name on the stone is already a clue. Bonaparte? That rings a bell. Napoleon Bonaparte was a French military leader who became Emperor of France. Oh, right! This painting looks familiar—it might be Jacques-Louis David's famous depiction of Napoleon crossing the Alps. Wait, the painting is titled something like "Napoleon Crossing the Alps," but actually, that's a common subject. But here the inscribed text includes "BONAPARTE." So even though it's a painting by someone else (maybe not David exactly), the figure is Napoleon Bonaparte.
+
+Let me check my knowledge: Napoleon Bonaparte was known for his military campaigns, including the Italian campaign and later the Russian campaign. His iconic portrait often features him on horseback. The uniform—blue coat, red cape, bicorne hat—that matches his military attire during the early years. Also, the scene depicts him leading troops over mountains, which aligns with the legend of his crossing the Alps (though historically, he didn't actually cross the Alps himself; it's a symbolic depiction).
+
+Also, the artist's signature at the bottom—wait, it says "KAROLVS. MAGNVS IMP"—maybe that's a stylized version or a reference. But regardless, the man is identified by the inscription "BONAPARTE" on the rock and historical context. Even if I don't rely solely on the inscription, the visual cues—uniform style, pose, historical significance—point strongly to Napoleon Bonaparte.
+
+I should confirm: Napoleon’s portraits often show him as a commanding general, sometimes with a horse. The bicorne hat with the golden braids and the red cloak are characteristic elements. Plus, the presence of soldiers and artillery in the background fits a military expedition. Given all this, and the explicit inscription of "BONAPARTE," the man must be Napoleon Bonaparte.
+
+So the answer is Napoleon Bonaparte. The question asks to use external knowledge to identify him, so since we know this painting is a depiction of Napoleon (even if the inscription helps confirm), the conclusion is clear.
+&lt;/think&gt;
+
+&lt;answer&gt;
+The image depicts a man on horseback in military attire—including a bicorne hat with gold trim, a blue coat, gold-embroidered uniform details, and a red cloak flowing behind him. The horse is rearing, and the background includes soldiers, cannon wheels, and mountainous terrain. At the bottom left, an inscription reads *“BONAPARTE”* on a snow-covered rock, along with a partially visible artist’s signature (*“KAROLVS. MAGNVS IMP”*). Historically, this artwork aligns with depictions of **Napoleon Bonaparte**, the French military leader and Emperor, often portrayed in grand equestrian scenes symbolizing leadership and conquest. While the inscription directly labels the figure as “Bonaparte,” external knowledge confirms the depiction corresponds to Napoleon Bonaparte, whose iconography (uniform style, pose, and symbolic portrayal as a commanding general) matches the imagery.  
+
+\boxed{Napoleon Bonaparte}
+&lt;/answer&gt;</pre>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                const blocks = Array.from(document.querySelectorAll('.assistant-scroll'));
+                window.MathJax.typesetPromise(blocks).catch(() => { });
+            }
+        }, { once: true });
+    </script>
+</body>
+
+</html>

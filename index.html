@@ -287,13 +287,6 @@
       flex-wrap: wrap;
     }
 
-    .hero hr {
-      border: 0;
-      border-top: 1px solid #000000;
-      margin: 30px 0 0;
-      width: 100%;
-    }
-
     .abstract-title {
       font-size: 32px;
       line-height: 1.2;
@@ -316,9 +309,10 @@
 
     .teaser-slider {
       position: relative;
-      width: min(1170px, calc(100vw - 40px));
-      max-width: none;
+      width: min(100%, 1020px);
+      max-width: 1020px;
       margin: 26px auto 0;
+      align-self: center;
       border: none;
       background: #ffffff;
       overflow: visible;
@@ -375,11 +369,11 @@
     }
 
     .teaser-slider-arrow.prev {
-      left: -42px;
+      left: -68px;
     }
 
     .teaser-slider-arrow.next {
-      right: -42px;
+      right: -68px;
     }
 
     .hero-title-vero {
@@ -737,6 +731,13 @@
       border-radius: 2px;
       border: 1px solid #263238;
       background: #fff;
+    }
+
+    .results-table-note {
+      margin-top: 8px;
+      font-size: 12px;
+      line-height: 1.45;
+      color: #455A64;
     }
 
     table {
@@ -1354,6 +1355,11 @@
         font-size: 28px;
       }
 
+      .teaser-slider {
+        width: 100%;
+        max-width: 100%;
+      }
+
       .teaser-slider-arrow.prev {
         left: 8px;
       }
@@ -1419,7 +1425,6 @@
             <img src="assets/logos/hf.png" alt="Model logo"> Models
           </a>
         </div>
-        <!-- <hr> -->
         <div class="teaser-slider" id="teaser-slider" aria-label="Teaser plot slider">
           <button class="teaser-slider-arrow prev" type="button" data-slide-dir="-1"
             aria-label="Show previous teaser plot">&#8249;</button>
@@ -1436,13 +1441,12 @@
             </div>
           </div>
         </div>
-        <hr>
       </div>
     </header>
 
     <article class="article">
       <section id="results" data-reveal>
-        <h2>Results</h2>
+        <h2>State of the Art Performance Across Task Categories</h2>
         <p class="lead">We evaluate Vero on 30 benchmarks spanning six task categories. The same open recipe improves four different base models and reaches state-of-the-art overall performance among 8B open-weight VLMs.</p>
         <p>Starting from Qwen3-VL-8B-Instruct, Vero-Q3I-8B raises the overall average from 60.5 to 66.0, with category
           gains of +8.5 on Chart and OCR, +6.4 on STEM, +3.7 on Spatial and Action, +1.0 on Knowledge and Recognition,
@@ -1455,11 +1459,12 @@
         <div class="controls" id="results-filters"></div>
         <div class="results-table-shell section-card">
           <div class="table-wrap" id="results-table-wrap"></div>
+          <div class="results-table-note">† indicates evaluated by us. All other results are taken from official reports.</div>
         </div>
       </section>
 
       <section id="demos" data-reveal>
-        <h2>Demos</h2>
+        <h2>Vero Demos</h2>
         <p class="lead">Example conversations between a user and Vero across all six task categories. Each demo shows
           the model's reasoning trace and final answer.</p>
         <div class="demo-tabs" role="tablist">
@@ -1738,7 +1743,7 @@
       const host = document.getElementById('teaser-chart');
       host.innerHTML = '';
       const width = 1170;
-      const height = 910;
+      const height = 1220;
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
       svg.setAttribute('role', 'img');
@@ -1756,21 +1761,25 @@
       };
 
       const FONT = 'Arial, Helvetica, sans-serif';
-      const cellW = 280;
+      const cellW = 340;
       const cellH = 245;
-      const gap = 14;
-      const TOP_LEGEND_SPACE = 106;
+      const colGap = 25;
+      const rowGap = 20;
+      const TOP_LEGEND_SPACE = 102;
       const legendY = 5;
-      const avgPos = { x: 0, y: TOP_LEGEND_SPACE, w: 3 * cellW + 2 * gap, h: 2 * cellH + gap };
-      const smallPositions = [
-        { x: 3 * (cellW + gap), y: TOP_LEGEND_SPACE },
-        { x: 3 * (cellW + gap), y: TOP_LEGEND_SPACE + cellH + gap },
-        { x: 0, y: TOP_LEGEND_SPACE + 2 * (cellH + gap) + 18 },
-        { x: cellW + gap, y: TOP_LEGEND_SPACE + 2 * (cellH + gap) + 18 },
-        { x: 2 * (cellW + gap), y: TOP_LEGEND_SPACE + 2 * (cellH + gap) + 18 },
-        { x: 3 * (cellW + gap), y: TOP_LEGEND_SPACE + 2 * (cellH + gap) + 18 },
-      ];
       const SECTION_W = 1170;
+      const avgPos = { x: (SECTION_W - 760) / 2, y: TOP_LEGEND_SPACE, w: 760, h: 504 };
+      const gridStartX = (SECTION_W - (3 * cellW + 2 * colGap)) / 2;
+      const topRowY = avgPos.y + avgPos.h + 32;
+      const bottomRowY = topRowY + cellH + rowGap;
+      const smallPositions = [
+        { x: gridStartX, y: topRowY },
+        { x: gridStartX + cellW + colGap, y: topRowY },
+        { x: gridStartX + 2 * (cellW + colGap), y: topRowY },
+        { x: gridStartX, y: bottomRowY },
+        { x: gridStartX + cellW + colGap, y: bottomRowY },
+        { x: gridStartX + 2 * (cellW + colGap), y: bottomRowY },
+      ];
       const AXIS_NUMBER_FONT_SIZE = 22;
       const BAR_VALUE_FONT_SIZE = 24;
       const LEGEND_FONT_SIZE = 24;
@@ -1974,9 +1983,8 @@
         return swatchW + textPad + maxChars * charW;
       });
       const totalLegendW = colWidths.reduce((a, b) => a + b, 0) + LEGEND_COLUMN_GAP * (colCount - 1);
-      const legendStartX = (SECTION_W - totalLegendW) / 2 - 80;
       const colX = [];
-      let curX = legendStartX;
+      let curX = SECTION_W / 2 - totalLegendW / 2 - 40;
       for (let ci = 0; ci < colCount; ci += 1) {
         colX.push(curX);
         curX += colWidths[ci] + LEGEND_COLUMN_GAP;
@@ -2034,7 +2042,7 @@
       const host = document.getElementById('teaser-lines');
       host.innerHTML = '';
       const width = 1170;
-      const height = 910;
+      const height = 1220;
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
       svg.setAttribute('role', 'img');
@@ -2054,21 +2062,25 @@
       };
 
       const FONT = 'Arial, Helvetica, sans-serif';
-      const cellW = 280;
+      const cellW = 340;
       const cellH = 245;
-      const gap = 14;
-      const TOP_LEGEND_SPACE = 106;
+      const colGap = 25;
+      const rowGap = 20;
+      const TOP_LEGEND_SPACE = 102;
       const legendY = 5;
-      const avgPos = { x: 0, y: TOP_LEGEND_SPACE, w: 3 * cellW + 2 * gap, h: 2 * cellH + gap };
-      const smallPositions = [
-        { x: 3 * (cellW + gap), y: TOP_LEGEND_SPACE },
-        { x: 3 * (cellW + gap), y: TOP_LEGEND_SPACE + cellH + gap },
-        { x: 0, y: TOP_LEGEND_SPACE + 2 * (cellH + gap) + 18 },
-        { x: cellW + gap, y: TOP_LEGEND_SPACE + 2 * (cellH + gap) + 18 },
-        { x: 2 * (cellW + gap), y: TOP_LEGEND_SPACE + 2 * (cellH + gap) + 18 },
-        { x: 3 * (cellW + gap), y: TOP_LEGEND_SPACE + 2 * (cellH + gap) + 18 },
-      ];
       const SECTION_W = 1170;
+      const avgPos = { x: (SECTION_W - 760) / 2, y: TOP_LEGEND_SPACE, w: 760, h: 504 };
+      const gridStartX = (SECTION_W - (3 * cellW + 2 * colGap)) / 2;
+      const topRowY = avgPos.y + avgPos.h + 32;
+      const bottomRowY = topRowY + cellH + rowGap;
+      const smallPositions = [
+        { x: gridStartX, y: topRowY },
+        { x: gridStartX + cellW + colGap, y: topRowY },
+        { x: gridStartX + 2 * (cellW + colGap), y: topRowY },
+        { x: gridStartX, y: bottomRowY },
+        { x: gridStartX + cellW + colGap, y: bottomRowY },
+        { x: gridStartX + 2 * (cellW + colGap), y: bottomRowY },
+      ];
       const AXIS_NUMBER_FONT_SIZE = 22;
       const RIGHT_LINE_WIDTH_SCALE = 2.4;
       const LEGEND_FONT_SIZE = 24;
@@ -2466,9 +2478,8 @@
         return swatchLen + textPadR + maxChars * charW;
       });
       const totalLegendW = colWidths.reduce((a, b) => a + b, 0) + LEGEND_COLUMN_GAP * (colCount - 1);
-      const legendStartX = (SECTION_W - totalLegendW) / 2 - 80;
       const colX = [];
-      let curX = legendStartX;
+      let curX = SECTION_W / 2 - totalLegendW / 2 - 40;
       for (let ci = 0; ci < colCount; ci += 1) {
         colX.push(curX);
         curX += colWidths[ci] + LEGEND_COLUMN_GAP;

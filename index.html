@@ -690,6 +690,16 @@
     .two-col-figures figure {
       flex: 1;
       min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .two-col-figures figure .viz {
+      flex: 1;
+    }
+
+    .two-col-figures figcaption {
+      margin-top: auto;
     }
 
     #confusion-matrix {
